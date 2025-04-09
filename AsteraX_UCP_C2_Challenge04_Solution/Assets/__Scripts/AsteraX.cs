@@ -1,6 +1,7 @@
 ﻿//#define DEBUG_AsteraX_LogMethods
 //#define DEBUG_AsteraX_RespawnNotifications
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -80,6 +81,8 @@ public class AsteraX : MonoBehaviour
             S._gameState = AsteraX.GAME_STATE;
         };
         
+        GAME_STATE_CHANGE_DELEGATE += OnGameStateChanged;
+        
 		// This strange use of _gameState as an intermediary in the following lines 
         //  is solely to stop the Warning from popping up in the Console telling you 
         //  that _gameState was assigned but not used.
@@ -106,32 +109,44 @@ public class AsteraX : MonoBehaviour
         {
             SpawnParentAsteroid(i);
         }
-        GAME_STATE = eGameState.level;
+        GAME_STATE = eGameState.mainMenu;
     }
 
 
     void SpawnParentAsteroid(int i)
     {
-#if DEBUG_AsteraX_LogMethods
-        Debug.Log("AsteraX:SpawnParentAsteroid("+i+")");
-#endif
-
-        Asteroid ast = Asteroid.SpawnAsteroid();
-        ast.gameObject.name = "Asteroid_" + i.ToString("00");
-        // Find a good location for the Asteroid to spawn
-        Vector3 pos;
-        do
+        if (GAME_STATE == eGameState.level)
         {
-            pos = ScreenBounds.RANDOM_ON_SCREEN_LOC;
-        } while ((pos - PlayerShip.POSITION).magnitude < MIN_ASTEROID_DIST_FROM_PLAYER_SHIP);
+            #if DEBUG_AsteraX_LogMethods
+                    Debug.Log("AsteraX:SpawnParentAsteroid("+i+")");
+            #endif
+                    
+                        Asteroid ast = Asteroid.SpawnAsteroid();
+                        ast.gameObject.name = "Asteroid_" + i.ToString("00");
+                        // Find a good location for the Asteroid to spawn
+                        Vector3 pos;
+                        do
+                        {
+                            pos = ScreenBounds.RANDOM_ON_SCREEN_LOC;
+                        } while ((pos - PlayerShip.POSITION).magnitude < MIN_ASTEROID_DIST_FROM_PLAYER_SHIP);
 
-        ast.transform.position = pos;
-        ast.size = asteroidsSO.initialSize;
+                        ast.transform.position = pos;
+                        ast.size = asteroidsSO.initialSize;
+        }
+    }
+    
+    void OnGameStateChanged()
+    {
+        if (GAME_STATE == eGameState.level)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                SpawnParentAsteroid(i);
+            }
+        }
     }
 
-
-    
-	public void EndGame()
+    public void EndGame()
     {
         GAME_STATE = eGameState.gameOver;
         Invoke("ReloadScene", DELAY_BEFORE_RELOADING_SCENE);
