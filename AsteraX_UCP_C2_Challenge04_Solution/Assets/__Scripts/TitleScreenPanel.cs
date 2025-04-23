@@ -6,11 +6,13 @@ using UnityEngine.UI;
 public class TitleScreenPanel : ActiveOnlyDuringSomeGameStates
 {
     public Button startButton;
+    public GameObject playerShip;
     
     // Start is called before the first frame update
     void Start()
     {
         startButton.onClick.AddListener(OnStartButtonClicked);
+        playerShip.SetActive(false);
     }
 
     // Update is called once per frame
@@ -22,6 +24,7 @@ public class TitleScreenPanel : ActiveOnlyDuringSomeGameStates
     void OnStartButtonClicked()
     {
         AsteraX.GAME_STATE = AsteraX.eGameState.level;
+        playerShip.SetActive(true);
     }
     
 }

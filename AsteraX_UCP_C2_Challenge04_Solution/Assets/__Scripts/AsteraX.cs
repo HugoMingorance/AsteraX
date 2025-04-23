@@ -401,5 +401,7 @@ public class AsteraX : MonoBehaviour
 #endif
         callback(nextPos);
     }
+    
+    
 
 }
