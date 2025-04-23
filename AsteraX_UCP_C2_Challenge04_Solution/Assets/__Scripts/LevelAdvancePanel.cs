@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class LevelAdvancePanel : MonoBehaviour
 {
     public GameObject playerShip;
-    public int level = 1;
+    public int level;
     public TextMeshProUGUI levelText;
     private GameObject[] bullets;
     public Button nextButton;
@@ -16,9 +16,9 @@ public class LevelAdvancePanel : MonoBehaviour
     private void Awake()
     {
         Debug.Log("LevelAdvancePanel Awake");
-        
-        //Level managment
-        level++;
+
+        AsteraX.level++;
+        level = AsteraX.level;
         levelText.text = "LEVEL " + level.ToString();
         
         //Desactivem player
@@ -37,7 +37,6 @@ public class LevelAdvancePanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("LevelAdvancePanel Start");
     }
 
     // Update is called once per frame
