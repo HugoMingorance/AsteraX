@@ -62,6 +62,9 @@ public class AsteraX : MonoBehaviour
         + "GAME_STATE_CHANGE_DELEGATE whenever GAME_STATE changes.")]
     protected eGameState  _gameState;
 
+    public GameObject levelAdvancePanel;
+    public bool asteroidsWereSpawned = false;
+
     private void Awake()
     {
 #if DEBUG_AsteraX_LogMethods
@@ -132,6 +135,7 @@ public class AsteraX : MonoBehaviour
 
                         ast.transform.position = pos;
                         ast.size = asteroidsSO.initialSize;
+                        Debug.Log(ASTEROIDS);
         }
     }
     
@@ -402,6 +406,22 @@ public class AsteraX : MonoBehaviour
         callback(nextPos);
     }
     
-    
+    void Update()
+    {
+        if (ASTEROIDS.Count > 0)
+        {
+            asteroidsWereSpawned = true;
+        }
+        
+        if (GAME_STATE == eGameState.level && ASTEROIDS.Count == 0 && asteroidsWereSpawned)
+        {
+            if (levelAdvancePanel != null && !levelAdvancePanel.activeInHierarchy)
+            {
+                levelAdvancePanel.SetActive(true);
+                GAME_STATE = eGameState.postLevel;
+                asteroidsWereSpawned = false;
+            }
+        }
+    }
 
 }
