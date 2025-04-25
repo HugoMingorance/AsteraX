@@ -4,6 +4,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AsteraX : MonoBehaviour
@@ -14,7 +15,7 @@ public class AsteraX : MonoBehaviour
     static List<Asteroid>           ASTEROIDS;
     static List<Bullet>             BULLETS;
     static private eGameState       _GAME_STATE = eGameState.mainMenu;
-    public static int level = 0;
+    public static int level = 1;
     
 	// If you use a fully-qualified class name like this, you don't need "using UnityEngine.UI;" above.
     static UnityEngine.UI.Text  	SCORE_GT;
@@ -419,10 +420,30 @@ public class AsteraX : MonoBehaviour
             if (levelAdvancePanel != null && !levelAdvancePanel.activeInHierarchy)
             {
                 levelAdvancePanel.SetActive(true);
+                levelAdvancePanel.GetComponent<LevelAdvancePanel>().updateLevelAdvancePanel();
                 GAME_STATE = eGameState.postLevel;
                 asteroidsWereSpawned = false;
             }
         }
+    }
+
+    public int IncrementLevel()
+    {
+        level++;
+        Debug.Log("LEVEL: "+level.ToString());
+        
+        string[] levelConfigs = levelProgression.Split(',');
+
+        foreach (string config in levelConfigs)
+        {
+            string[] levelAndData = config.Split(':'); // [ "1", "3/2" ]
+            if (levelAndData[0].Equals(level.ToString()))
+            {
+                Debug.Log("NIVELL DATA: " + levelAndData[1]);
+            }
+        }
+        
+        return level;
     }
 
 }

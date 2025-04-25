@@ -45,11 +45,14 @@ public class Asteroid : MonoBehaviour
         {
             InitAsteroidParent();
         }
+        
+        
 
         // Spawn child Asteroids
         if (size > 1)
         {
             Asteroid ast;
+            
             for (int i = 0; i < AsteraX.AsteroidsSO.numSmallerAsteroidsToSpawn; i++)
             {
                 ast = SpawnAsteroid();
