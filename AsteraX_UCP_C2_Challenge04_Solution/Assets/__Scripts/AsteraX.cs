@@ -70,6 +70,7 @@ public class AsteraX : MonoBehaviour
 
     public GameObject levelAdvancePanel;
     public bool asteroidsWereSpawned = false;
+    public bool gamePaused = false;
 
     private void Awake()
     {
@@ -445,6 +446,22 @@ public class AsteraX : MonoBehaviour
                 GAME_STATE = eGameState.postLevel;
                 asteroidsWereSpawned = false;
                 levelAdvancePanel.GetComponent<LevelAdvancePanel>().nextButton.interactable = true;
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            if (gamePaused)
+            {
+                Debug.Log("GameReanuded");
+                gamePaused = false;
+                Time.timeScale = 1;  
+            }
+            else if (!gamePaused && asteroidsWereSpawned && GAME_STATE == eGameState.level)
+            {
+                Debug.Log("GamePause");
+                gamePaused = true;
+                Time.timeScale = 0;
             }
         }
     }
