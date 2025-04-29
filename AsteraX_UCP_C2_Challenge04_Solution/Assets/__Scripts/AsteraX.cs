@@ -108,10 +108,11 @@ public class AsteraX : MonoBehaviour
 #if DEBUG_AsteraX_LogMethods
         Debug.Log("AsteraX:Start()");
 #endif
-
         ASTEROIDS = new List<Asteroid>();
 		AddScore(0);
         
+        Debug.Log("LLISTA DE ASTEROIDS EN EL START" + ASTEROIDS.Count);
+        Debug.Log("NUMERO DE ASTEROIDES A GENERAR EN EL START" + numberOfAsteroids);
         // Spawn the parent Asteroids, child Asteroids are taken care of by them
         for (int i = 0; i < numberOfAsteroids; i++)
         {
@@ -163,7 +164,10 @@ public class AsteraX : MonoBehaviour
 
     public void EndGame()
     {
+        Debug.Log("AsteraX:EndGame()");
         GAME_STATE = eGameState.gameOver;
+        level = 0;
+        IncrementLevel();
         Invoke("ReloadScene", DELAY_BEFORE_RELOADING_SCENE);
     }
 
@@ -267,6 +271,13 @@ public class AsteraX : MonoBehaviour
     
     static public void GameOver()
     {
+        Debug.Log("AsteraX:GameOver");
+        foreach (var asteroid in ASTEROIDS)
+        {
+            Debug.Log(asteroid.gameObject.name);
+            Destroy(asteroid.gameObject);
+        }
+        ASTEROIDS.Clear();
         _S.EndGame();
     }
     
@@ -445,18 +456,22 @@ public class AsteraX : MonoBehaviour
         
         string[] levelConfigs = levelProgression.Split(',');
 
-        foreach (string config in levelConfigs)
+        Debug.Log(levelConfigs.Length);
+        if (level <= levelConfigs.Length)
         {
-            string[] levelAndData = config.Split(':'); // [ "1", "3/2" ]
-            if (levelAndData[0].Equals(level.ToString()))
+            foreach (string config in levelConfigs)
             {
-                string[] data = levelAndData[1].Split('/');
-                Debug.Log("NIVELL DATA: " + levelAndData[1]);
-                Debug.Log(data[0]);
-                numberOfAsteroids = Int32.Parse(data[0]);
-                numeroDeSubAsteroides = Int32.Parse(data[1]);
-                Debug.Log(numberOfAsteroids.ToString());
-            }
+                string[] levelAndData = config.Split(':'); // [ "1", "3/2" ]
+                if (levelAndData[0].Equals(level.ToString()))
+                {
+                    string[] data = levelAndData[1].Split('/');
+                    Debug.Log("NIVELL DATA: " + levelAndData[1]);
+                    Debug.Log(data[0]);
+                    numberOfAsteroids = Int32.Parse(data[0]);
+                    numeroDeSubAsteroides = Int32.Parse(data[1]);
+                    Debug.Log(numberOfAsteroids.ToString());
+                }
+            } 
         }
         
         return level;
