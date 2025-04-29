@@ -41,9 +41,12 @@ public class LevelAdvancePanel : MonoBehaviour
 
     public void updateLevelAdvancePanel()
     {
-        //Desactivem player
-        playerShip.SetActive(false);
-
+        if (playerShip != null && !playerShip.activeInHierarchy)
+        {
+            //Desactivem player
+            playerShip.SetActive(false);
+        }
+        
         //Desactivem bullets
         bullets = GameObject.FindGameObjectsWithTag("Bullet");
         foreach (GameObject bullet in bullets)
@@ -60,9 +63,16 @@ public class LevelAdvancePanel : MonoBehaviour
     {
         level = asteraX.IncrementLevel();
         Debug.Log("LEVEL RETURN: " + level);
+        Invoke("advanceLevel", 0.5f);
+    }
+
+    public void advanceLevel()
+    {
+        Debug.Log("Invoked function advanceLevel");
         AsteraX.GAME_STATE = AsteraX.eGameState.level;
         playerShip.SetActive(true);
         gameObject.SetActive(false);
+        nextButton.interactable = false;
     }
 
     public void makeButtonInteractable()

@@ -14,8 +14,10 @@ public class AsteraX : MonoBehaviour
 
     static List<Asteroid>           ASTEROIDS;
     static List<Bullet>             BULLETS;
+    public int numberOfAsteroids = 3;
     static private eGameState       _GAME_STATE = eGameState.mainMenu;
     public static int level = 1;
+
     
 	// If you use a fully-qualified class name like this, you don't need "using UnityEngine.UI;" above.
     static UnityEngine.UI.Text  	SCORE_GT;
@@ -110,7 +112,7 @@ public class AsteraX : MonoBehaviour
 		AddScore(0);
         
         // Spawn the parent Asteroids, child Asteroids are taken care of by them
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < numberOfAsteroids; i++)
         {
             SpawnParentAsteroid(i);
         }
@@ -145,8 +147,13 @@ public class AsteraX : MonoBehaviour
     {
         if (GAME_STATE == eGameState.level)
         {
-            for (int i = 0; i < 3; i++)
+            if (numberOfAsteroids == 1)
             {
+                numberOfAsteroids = 3;
+            }
+            for (int i = 0; i < numberOfAsteroids; i++)
+            {
+                Debug.Log("NUMBER OF ASTEROIDS (PARENT) " + numberOfAsteroids);
                 SpawnParentAsteroid(i);
             }
         }
@@ -423,12 +430,14 @@ public class AsteraX : MonoBehaviour
                 levelAdvancePanel.GetComponent<LevelAdvancePanel>().updateLevelAdvancePanel();
                 GAME_STATE = eGameState.postLevel;
                 asteroidsWereSpawned = false;
+                levelAdvancePanel.GetComponent<LevelAdvancePanel>().nextButton.interactable = true;
             }
         }
     }
 
     public int IncrementLevel()
     {
+        Debug.Log("AsteraX:IncrementLevel()");
         level++;
         Debug.Log("LEVEL: "+level.ToString());
         
@@ -439,7 +448,10 @@ public class AsteraX : MonoBehaviour
             string[] levelAndData = config.Split(':'); // [ "1", "3/2" ]
             if (levelAndData[0].Equals(level.ToString()))
             {
+                string[] data = levelAndData[1].Split('/');
                 Debug.Log("NIVELL DATA: " + levelAndData[1]);
+                Debug.Log(data[0]);
+                numberOfAsteroids = Int32.Parse(data[0]);
             }
         }
         
