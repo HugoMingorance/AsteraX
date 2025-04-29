@@ -55,6 +55,7 @@ public class Asteroid : MonoBehaviour
             
             for (int i = 0; i < AsteraX.AsteroidsSO.numSmallerAsteroidsToSpawn; i++)
             {
+                Debug.Log("Creant asteroid " + i);
                 ast = SpawnAsteroid();
                 ast.size = size - 1;
                 ast.transform.SetParent(transform);

@@ -15,6 +15,7 @@ public class AsteraX : MonoBehaviour
     static List<Asteroid>           ASTEROIDS;
     static List<Bullet>             BULLETS;
     public int numberOfAsteroids = 3;
+    public int numeroDeSubAsteroides = 2;
     static private eGameState       _GAME_STATE = eGameState.mainMenu;
     public static int level = 1;
 
@@ -129,6 +130,7 @@ public class AsteraX : MonoBehaviour
             #endif
                     
                         Asteroid ast = Asteroid.SpawnAsteroid();
+                        asteroidsSO.numSmallerAsteroidsToSpawn = numeroDeSubAsteroides;
                         ast.gameObject.name = "Asteroid_" + i.ToString("00");
                         // Find a good location for the Asteroid to spawn
                         Vector3 pos;
@@ -452,6 +454,8 @@ public class AsteraX : MonoBehaviour
                 Debug.Log("NIVELL DATA: " + levelAndData[1]);
                 Debug.Log(data[0]);
                 numberOfAsteroids = Int32.Parse(data[0]);
+                numeroDeSubAsteroides = Int32.Parse(data[1]);
+                Debug.Log(numberOfAsteroids.ToString());
             }
         }
         
