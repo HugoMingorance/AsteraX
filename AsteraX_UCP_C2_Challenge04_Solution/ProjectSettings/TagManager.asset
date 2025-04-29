@@ -7,6 +7,7 @@ TagManager:
   - Bullet
   - OnScreenBounds
   - DestroyWithLevelChange
+  - GameOverPanel
   layers:
   - Default
   - TransparentFX

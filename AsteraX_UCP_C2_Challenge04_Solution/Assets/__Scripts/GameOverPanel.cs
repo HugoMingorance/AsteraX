@@ -20,7 +20,7 @@ public class GameOverPanel : ActiveOnlyDuringSomeGameStates {
     private eGameOverPanelState state = eGameOverPanelState.none;
     
     Image img;
-    Text levelText, infoText;
+    public Text levelText, infoText;
     RectTransform levelRT;//, infoRT; // infoRT was unused, so I've commented it out. – JGB
     float stateStartTime, stateDuration;
     eGameOverPanelState nextState;
@@ -88,7 +88,7 @@ public class GameOverPanel : ActiveOnlyDuringSomeGameStates {
                 gameObject.SetActive(true);
                 // Set text            
                 levelRT.localScale = new Vector3(1,0,1);
-                infoText.text = "Final Level: " //+ AsteraX.GAME_LEVEL
+                infoText.text = "Final Level: " + AsteraX.level
                     + "\nFinal Score: "+AsteraX.SCORE.ToString("N0");
                 infoText.color = Color.clear;
                 // Set initial state

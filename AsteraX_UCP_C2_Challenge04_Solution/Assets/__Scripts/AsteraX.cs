@@ -19,6 +19,7 @@ public class AsteraX : MonoBehaviour
     static private eGameState       _GAME_STATE = eGameState.mainMenu;
     public static int level = 1;
 
+
     
 	// If you use a fully-qualified class name like this, you don't need "using UnityEngine.UI;" above.
     static UnityEngine.UI.Text  	SCORE_GT;
